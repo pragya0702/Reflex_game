@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="utf-8">
+	<style>
+		body {
+			background-color: black;
+		}
+		input[type=button] {
+			background-color: #2159ad;
+			border: none;
+			border-radius: 10%;
+			color: white;
+			padding: 16px 32px;
+			text-decoration: none;
+			margin: 4px 2px;
+			cursor: pointer;
+		}
+		.container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			height: 100vh;
+		}
+		.button-container {
+			display: flex;
+			justify-content: space-around; 
+			margin-top: 20px; 
+		}
+		.red-box {
+			width: 100%;
+			height: 250px;
+			background-color: red;
+			margin-bottom: 20px;
+		}
+		.response-time {
+			color: black;
+			font-size: 24px;
+			padding: 8px;
+			border: none;
+			border-radius: 10px;
+			width: 175px;
+			text-align: center;
+		}
+	</style>
+	<title>Reflex Game</title>
+</head>
+<body>
+	<script language="JavaScript">
+		var startTime;
+		var startPressed = false;
+		var timerID;
+
+		function changeColor() {
+			document.querySelector(".red-box").style.backgroundColor = "green";
+			startTime = new Date();
+		}
+
+		function stopTest() {
+			if (document.querySelector(".red-box").style.backgroundColor === "green") {
+				var endTime = new Date();
+				var responseTime = (endTime.getTime() - startTime.getTime()) / 1000;
+				document.getElementById("responseTimeOutput").value = responseTime.toFixed(2);
+				document.querySelector(".red-box").style.backgroundColor = "red";
+				startPressed = false;
+			} else {
+				alert("Wait for the box to turn green before pressing Stop!");
+			}
+		}
+
+		function startit() {
+			if (startPressed) {
+				alert("Already started. Press stop to stop");
+				return;
+			}
+			startPressed = true;
+			document.getElementById("responseTimeOutput").value = "";
+			document.querySelector(".red-box").style.backgroundColor = "red";
+			var randomTime = Math.floor(Math.random() * 5000) + 1000; // Random time between 1 to 6 seconds
+			timerID = setTimeout(changeColor, randomTime);
+		}
+	</script>
+	<div class="container">
+		<strong><h1 style="color: white">Reflex Game</h1></strong>
+		<h2 style="color: azure;">Test your Response time!</h2>
+		<h3 style="color: azure;">How To Play</h3>
+		<p style="color: azure;">Click on "Start" first, and wait until the color changes from red to green. As soon as it changes, hit "Stop!"</p>
+		<div class="red-box"></div>
+		<div class="button-container">
+			<input type="button" class="btn" value="Start" onClick="startit()">
+			<input type="button" class="btn" value="Stop" onClick="stopTest()">
+		</div>
+		<br>
+		<input type="text" class="response-time" id="responseTimeOutput" readonly>
+	</div>
+</body>
+</html>
